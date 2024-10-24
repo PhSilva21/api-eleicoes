@@ -1,0 +1,16 @@
+version: '3'
+services:
+  eleicoes-db:
+    image: mysql:latest
+    container_name: "eleicoes-db"
+    restart: always
+    ports:
+      - "3308:3306"
+    volumes:
+      - ./data-beneficios:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 123
+      MYSQL_DATABASE: eleicoes
+
+volumes:
+  data-beneficios:
