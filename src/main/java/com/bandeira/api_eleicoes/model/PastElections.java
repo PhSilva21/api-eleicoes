@@ -14,10 +14,11 @@ import java.util.List;
 
 @Getter
 @Setter
-@Table(name = "tb_elections")
-public class Election {
+@Table(name = "tb_pats_elections")
+public class PastElections {
 
-
+    @Id
+    @GeneratedValue
     private Long id;
 
     private LocalDate date;
@@ -29,5 +30,4 @@ public class Election {
     private List<Candidate> electedCandidates = new ArrayList<>();
 
     private Long percentageOfSessionsAccountedFor;
-
 }
