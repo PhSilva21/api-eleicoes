@@ -7,6 +7,8 @@ import java.util.List;
 
 public record UpdateCandidateDTO(
 
+        Long id,
+
         String name,
 
         String voucherFile,
@@ -17,6 +19,6 @@ public record UpdateCandidateDTO(
 
         PoliticalParty politicalParty,
 
-        List<String> coalitionAndFederation
+        String coalitionAndFederation
 ) {
 }

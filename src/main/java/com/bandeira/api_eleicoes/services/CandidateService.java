@@ -4,12 +4,13 @@ import com.bandeira.api_eleicoes.dtos.CreateCandidateDTO;
 import com.bandeira.api_eleicoes.dtos.CreateCandidateResponse;
 import com.bandeira.api_eleicoes.dtos.UpdateCandidateDTO;
 import com.bandeira.api_eleicoes.model.Candidate;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
 public interface CandidateService {
 
-    CreateCandidateResponse createCandidate(CreateCandidateDTO request);
+    CreateCandidateResponse createCandidate(CreateCandidateDTO request, MultipartFile file);
 
     UpdateCandidateDTO updateCandidate(UpdateCandidateDTO request);
 

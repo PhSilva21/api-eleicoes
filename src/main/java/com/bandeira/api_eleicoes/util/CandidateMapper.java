@@ -1,4 +1,4 @@
-package com.bandeira.api_eleicoes.services.util;
+package com.bandeira.api_eleicoes.util;
 
 import com.bandeira.api_eleicoes.dtos.CreateCandidateDTO;
 import com.bandeira.api_eleicoes.model.Candidate;

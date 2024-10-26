@@ -2,9 +2,7 @@ package com.bandeira.api_eleicoes.model;
 
 
 import com.bandeira.api_eleicoes.model.enums.ElectionType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,9 +13,11 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "tb_elections")
+@Entity
 public class Election {
 
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private LocalDate date;
@@ -26,6 +26,7 @@ public class Election {
 
     private Long sessions;
 
+    @OneToMany(mappedBy = "election")
     private List<Candidate> electedCandidates = new ArrayList<>();
 
     private Long percentageOfSessionsAccountedFor;
