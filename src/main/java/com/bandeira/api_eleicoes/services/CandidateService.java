@@ -14,12 +14,13 @@ public interface CandidateService {
 
     void updateCandidate(UpdateCandidateDTO request, MultipartFile file);
 
+    Candidate findByCandidateRegistration(String code);
+
     Candidate findById(Long id);
 
     Candidate findByName(String name);
 
     void deleteById(Long id);
-
 
     String generateCandidateRegistration();
 }

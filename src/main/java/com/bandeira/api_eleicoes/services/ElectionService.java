@@ -1,9 +1,12 @@
 package com.bandeira.api_eleicoes.services;
 
+import com.bandeira.api_eleicoes.dtos.AddCandidateToElectionDTO;
+import com.bandeira.api_eleicoes.dtos.CloseSessionResponseDTO;
 import com.bandeira.api_eleicoes.dtos.CreateElectionDTO;
 import com.bandeira.api_eleicoes.dtos.FilterElectionByUfAndTurn;
 import com.bandeira.api_eleicoes.model.Candidate;
 import com.bandeira.api_eleicoes.model.Election;
+import com.bandeira.api_eleicoes.model.PastElections;
 import com.bandeira.api_eleicoes.model.enums.ElectionType;
 import jakarta.transaction.Transactional;
 
@@ -18,7 +21,11 @@ public interface ElectionService {
     void validateElection(String uf, LocalDate date, ElectionType electionType);
 
     @Transactional
-    void toPastElection(Long electionId);
+    PastElections toPastElection(Long electionId);
+
+    CloseSessionResponseDTO closeSession(Long electionId);
+
+    List<Candidate> addCandidate(AddCandidateToElectionDTO request);
 
     Optional<Election> findByUfAndTurn(FilterElectionByUfAndTurn request);
 
@@ -29,4 +36,6 @@ public interface ElectionService {
     Election findById(Long id);
 
     void deleteById(Long id);
+
+    String calculation(Double value1, Double value2, Election election);
 }

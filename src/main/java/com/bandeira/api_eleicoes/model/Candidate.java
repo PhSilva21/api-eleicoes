@@ -4,6 +4,7 @@ import com.bandeira.api_eleicoes.model.enums.SituationCandidate;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Table(name = "tb_candidates")
 @Entity
 public class Candidate {

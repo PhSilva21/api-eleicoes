@@ -5,6 +5,7 @@ import com.bandeira.api_eleicoes.model.enums.ElectionTurn;
 import com.bandeira.api_eleicoes.model.enums.ElectionType;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Table(name = "tb_elections")
 @Entity
 public class Election {
@@ -30,23 +32,32 @@ public class Election {
 
     private ElectionType electionType;
 
-    private Long sessions;
+    private Double totalSessions;
 
-    @OneToMany(mappedBy = "electionWon")
+    private Double remainingSessions;
+
+    @OneToMany(mappedBy = "election")
     private List<Candidate> candidates = new ArrayList<>();
 
     @ElementCollection
     private List<Candidate> electedCandidates = new ArrayList<>();
 
-    private Integer percentageOfSectionsTotaled;
+    private Double percentageOfSectionsTotaled;
 
     private LocalDateTime latestUpdate;
 
     public Election(LocalDate date, String uf, ElectionTurn electionTurn
-            , ElectionType electionType, Long sessions) {
+            , ElectionType electionType,Double totalSessions) {
         this.date = date;
         this.uf = uf;
         this.electionType = electionType;
-        this.sessions = sessions;
+        this.electionTurn = electionTurn;
+        this.totalSessions = totalSessions;
+        this.remainingSessions = totalSessions;
+        this.percentageOfSectionsTotaled = 0.0;
+    }
+
+    public void decrementSession() {
+        this.remainingSessions -= 1;
     }
 }

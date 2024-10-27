@@ -14,12 +14,12 @@ import java.util.List;
 
 @Getter
 @Setter
-@Table(name = "tb_pats_elections")
+@Table(name = "tb_past_elections")
 @Entity
 public class PastElections {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private LocalDate date;
@@ -30,7 +30,9 @@ public class PastElections {
 
     private ElectionType electionType;
 
-    private Long sessions;
+    private Double totalSessions;
+
+    private Double remainingSessions;
 
     @OneToMany(mappedBy = "pastElections")
     private List<Candidate> candidates = new ArrayList<>();
@@ -38,19 +40,20 @@ public class PastElections {
     @ElementCollection
     private List<Candidate> electedCandidates = new ArrayList<>();
 
-    private Integer percentageOfSectionsTotaled;
+    private Double percentageOfSectionsTotaled;
 
     private LocalDateTime latestUpdate;
 
     public PastElections(LocalDate date, String uf, ElectionTurn electionTurn
-            , ElectionType electionType, Long sessions, List<Candidate> candidates
-            , List<Candidate> electedCandidates,Integer percentageOfSectionsTotaled
-            , LocalDateTime latestUpdate) {
+            , ElectionType electionType, Double totalSessions,Double remainingSessions
+            , List<Candidate> candidates, List<Candidate> electedCandidates
+            ,Double percentageOfSectionsTotaled, LocalDateTime latestUpdate) {
         this.date = date;
         this.uf = uf;
         this.electionTurn = electionTurn;
         this.electionType = electionType;
-        this.sessions = sessions;
+        this.totalSessions = totalSessions;
+        this.remainingSessions = remainingSessions;
         this.candidates = candidates;
         this.electedCandidates = electedCandidates;
         this.percentageOfSectionsTotaled = percentageOfSectionsTotaled;

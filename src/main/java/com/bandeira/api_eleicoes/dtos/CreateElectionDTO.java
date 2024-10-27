@@ -15,6 +15,6 @@ public record CreateElectionDTO(
 
         ElectionType electionType,
 
-        Long sessions
+        Double sessions
 ) {
 }

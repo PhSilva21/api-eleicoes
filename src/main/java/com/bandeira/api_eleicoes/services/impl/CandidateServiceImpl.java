@@ -105,6 +105,12 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
+    public Candidate findByCandidateRegistration(String code) {
+        return candidateRepository.findByCandidateRegistration(code)
+                .orElseThrow(CandidateNotFoundException::new);
+    }
+
+    @Override
     public Candidate findById(Long id) {
         return candidateRepository.findById(id)
                 .orElseThrow(CandidateNotFoundException::new);
