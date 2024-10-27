@@ -1,6 +1,7 @@
 package com.bandeira.api_eleicoes.services.impl;
 
 import com.bandeira.api_eleicoes.dtos.CreatePoliticalPartyDTO;
+import com.bandeira.api_eleicoes.dtos.PoliticalPartyResponse;
 import com.bandeira.api_eleicoes.exceptions.PoliticalPartyNameAlreadyExists;
 import com.bandeira.api_eleicoes.exceptions.PoliticalPartyNotFound;
 import com.bandeira.api_eleicoes.model.PoliticalParty;
@@ -8,6 +9,8 @@ import com.bandeira.api_eleicoes.repositories.PoliticalPartyRepository;
 import com.bandeira.api_eleicoes.services.PoliticalPartyService;
 import com.bandeira.api_eleicoes.util.PoliticalPartyMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class PoliticalPartyServiceImpl implements PoliticalPartyService{
@@ -42,5 +45,19 @@ public class PoliticalPartyServiceImpl implements PoliticalPartyService{
         if(politicalPartyRepository.findByName(name).isPresent()){
             throw new PoliticalPartyNameAlreadyExists();
         }
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        politicalPartyRepository.findById(id).orElseThrow(PoliticalPartyNotFound::new);
+        politicalPartyRepository.deleteById(id);
+    }
+
+    @Override
+    public List<PoliticalPartyResponse> filterByUf(String uf) {
+        return politicalPartyRepository.findAll().stream()
+                .filter(p -> p.getUf().equalsIgnoreCase(uf))
+                .map(politicalPartyMapper::toDTO)
+                .toList();
     }
 }
