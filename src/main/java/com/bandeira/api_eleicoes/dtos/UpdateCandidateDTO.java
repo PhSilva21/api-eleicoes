@@ -11,13 +11,11 @@ public record UpdateCandidateDTO(
 
         String name,
 
-        String voucherFile,
-
         SituationCandidate situationCandidate,
 
         String vice,
 
-        PoliticalParty politicalParty,
+        String politicalPartyName,
 
         String coalitionAndFederation
 ) {

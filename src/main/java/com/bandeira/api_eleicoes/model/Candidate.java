@@ -23,8 +23,6 @@ public class Candidate {
 
     private String photoPath;
 
-    private String voucherFile;
-
     private String candidateRegistration;
 
     private SituationCandidate situationCandidate;
@@ -48,11 +46,14 @@ public class Candidate {
     @JoinColumn(name = "past_elections_id")
     private PastElections pastElections;
 
-    public Candidate(String name, SituationCandidate situationCandidate
+    public Candidate(String name, String candidateRegistration
+            , SituationCandidate situationCandidate, PoliticalParty politicalParty
             , String vice, String coalitionAndFederation) {
         this.name = name;
+        this.candidateRegistration = candidateRegistration;
         this.situationCandidate = situationCandidate;
+        this.politicalParty = politicalParty;
         this.vice = vice;
-        this.candidateRegistration = coalitionAndFederation;
+        this.coalitionAndFederation = coalitionAndFederation;
     }
 }

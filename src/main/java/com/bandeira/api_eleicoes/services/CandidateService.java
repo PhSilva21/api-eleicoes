@@ -12,7 +12,7 @@ public interface CandidateService {
 
     CreateCandidateResponse createCandidate(CreateCandidateDTO request, MultipartFile file);
 
-    UpdateCandidateDTO updateCandidate(UpdateCandidateDTO request);
+    void updateCandidate(UpdateCandidateDTO request, MultipartFile file);
 
     Candidate findById(Long id);
 
@@ -20,7 +20,6 @@ public interface CandidateService {
 
     void deleteById(Long id);
 
-    void deleteAll();
 
     String generateCandidateRegistration();
 }

@@ -11,7 +11,6 @@ import com.bandeira.api_eleicoes.repositories.CandidateRepository;
 import com.bandeira.api_eleicoes.services.CandidateService;
 import com.bandeira.api_eleicoes.services.PoliticalPartyService;
 import com.bandeira.api_eleicoes.services.UploadService;
-import com.bandeira.api_eleicoes.util.CandidateMapper;
 import com.bandeira.api_eleicoes.util.RandomString;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,14 +40,15 @@ public class CandidateServiceImpl implements CandidateService {
 
         Candidate candidate = new Candidate(
                 request.name(),
+                code,
                 SituationCandidate.FIRST_TURN,
+                politicalParty,
                 request.vice(),
                 request.coalitionAndFederation()
         );
 
-        candidate.setCandidateRegistration(code);
-        candidate.setPoliticalParty(politicalParty);
         setPhotoPath(file, candidate);
+
 
         candidateRepository.save(candidate);
 
@@ -58,22 +58,50 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
-    public UpdateCandidateDTO updateCandidate(UpdateCandidateDTO request) {
+    public void updateCandidate(UpdateCandidateDTO request, MultipartFile file) {
         var candidate = findById(request.id());
 
         if(request.name() != null){
             candidate.setName(request.name());
         }
-        if(request.voucherFile() != null){
-            candidate.setName(request.name());
+        if(file != null){
+            setPhotoPath(file, candidate);
         }
-        return null;
+        if(request.situationCandidate() != null){
+            candidate.setSituationCandidate(request.situationCandidate());
+        }
+        if(request.vice() != null){
+            candidate.setVice(request.vice());
+        }
+        if(request.politicalPartyName() != null){
+            candidate.setPoliticalParty(politicalPartyService
+                    .findByName(request.politicalPartyName()));
+        }
+        if(request.coalitionAndFederation() != null){
+            candidate.setCoalitionAndFederation(request.coalitionAndFederation());
+        }
+
+        candidateRepository.save(candidate);
+
     }
 
     public UploadResponse setPhotoPath(MultipartFile file, Candidate candidate){
         var response = uploadService.uploadFile(file);
         candidate.setPhotoPath(response.location());
+
+        candidateRepository.save(candidate);
+
         return response;
+    }
+
+    @Override
+    public String generateCandidateRegistration() {
+        String candidateRegistration;
+        do {
+            candidateRegistration = RandomString.generateRandomString(6);
+        } while (candidateRepository.findByCandidateRegistration(candidateRegistration).isPresent());
+
+        return candidateRegistration;
     }
 
     @Override
@@ -84,26 +112,14 @@ public class CandidateServiceImpl implements CandidateService {
 
     @Override
     public Candidate findByName(String name) {
-        return null;
+        return candidateRepository.findByName(name)
+                .orElseThrow(CandidateNotFoundException::new);
     }
 
     @Override
     public void deleteById(Long id) {
-
+        findById(id);
+        candidateRepository.deleteById(id);
     }
 
-    @Override
-    public void deleteAll() {
-
-    }
-
-    @Override
-    public String generateCandidateRegistration() {
-        String candidateRegistration;
-        do {
-            candidateRegistration = RandomString.generateRandomString(6);
-        } while (candidateRepository.findByCandidateRegistration(candidateRegistration) != null);
-
-        return candidateRegistration;
-    }
 }
