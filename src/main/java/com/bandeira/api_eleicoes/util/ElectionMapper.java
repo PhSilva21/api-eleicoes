@@ -29,7 +29,6 @@ public class ElectionMapper {
                     newCandidate.setPoliticalParty(candidate.getPoliticalParty());
                     newCandidate.setVice(candidate.getVice());
                     newCandidate.setCoalitionAndFederation(candidate.getCoalitionAndFederation());
-                    // Não associar election para evitar referência duplicada
                     return newCandidate;
                 })
                 .collect(Collectors.toList());
@@ -37,7 +36,6 @@ public class ElectionMapper {
         List<Candidate> clonedElectedCandidates = election.getElectedCandidates().stream()
                 .map(candidate -> {
                     Candidate newCandidate = new Candidate();
-                    // Copiar dados como acima
                     return newCandidate;
                 })
                 .collect(Collectors.toList());
