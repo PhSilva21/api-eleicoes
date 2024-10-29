@@ -13,6 +13,7 @@ import com.bandeira.api_eleicoes.services.CandidateService;
 import com.bandeira.api_eleicoes.services.PoliticalPartyService;
 import com.bandeira.api_eleicoes.services.UploadService;
 import com.bandeira.api_eleicoes.util.RandomString;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -72,7 +73,9 @@ class CandidateServiceTest {
         UploadResponse uploadResponse = new UploadResponse(response, null, location);
 
         String code = "ABC123";
+
         @Test
+        @DisplayName("Should create candidate successfully")
         void createCandidate() throws Exception {
             mockStatic(RandomString.class);
             when(generateRandomString(6)).thenReturn(code);
@@ -105,7 +108,8 @@ class CandidateServiceTest {
         }
 
         @Test
-        void erroPL() throws Exception {
+        @DisplayName("Should throw PoliticalPartyNotFound exception")
+        void shouldThrowPoliticalPartyNotFoundException() throws Exception {
             mockStatic(RandomString.class);
             when(generateRandomString(6)).thenReturn(code);
             doThrow(PoliticalPartyNotFound.class)
@@ -125,7 +129,8 @@ class CandidateServiceTest {
         }
 
         @Test
-        void erroArquivo() throws Exception {
+        @DisplayName("Test error when trying to create candidate with file error")
+        void errorWhenTryingToCreateCandidateWithFileError() throws Exception {
             mockStatic(RandomString.class);
             when(generateRandomString(6)).thenReturn(code);
             doReturn(politicalParty)
@@ -147,7 +152,8 @@ class CandidateServiceTest {
         }
 
         @Test
-        void erroInesArquivo() throws Exception {
+        @DisplayName("Test generic error when trying to create candidate")
+        void genericError() throws Exception {
             mockStatic(RandomString.class);
             when(generateRandomString(6)).thenReturn(code);
             doReturn(politicalParty)
@@ -192,6 +198,7 @@ class CandidateServiceTest {
         UploadResponse uploadResponse = new UploadResponse(response, null, location);
 
         @Test
+        @DisplayName("Test successful candidate update")
         void updateCandidate() throws Exception {
             doReturn(Optional.of(candidate))
                     .when(candidateRepository).findById(updateCandidate.id());
@@ -225,7 +232,8 @@ class CandidateServiceTest {
         }
 
         @Test
-        void erroArquivo() throws Exception {
+        @DisplayName("Should throw exception when file error occurs during update")
+        void shouldThrowExceptionWhenFileErrorOccursDuringUpdate() throws Exception {
             doReturn(Optional.of(candidate))
                     .when(candidateRepository).findById(updateCandidate.id());
             doThrow(Exception.class)
@@ -245,7 +253,8 @@ class CandidateServiceTest {
         }
 
         @Test
-        void erroInesArquivo() throws Exception {
+        @DisplayName("Test error when trying to update candidate with file error")
+        void errorWhenTryingToUpdateCandidateWithFileError() throws Exception {
             doReturn(Optional.of(candidate))
                     .when(candidateRepository).findById(updateCandidate.id());
             doThrow(IOException.class)
@@ -283,6 +292,7 @@ class CandidateServiceTest {
         UploadResponse uploadResponse = new UploadResponse(response, null, location);
 
         @Test
+        @DisplayName("Should set candidate photo path successfully")
         void setPhotoPath() throws Exception {
             doReturn(uploadResponse)
                     .when(uploadService).uploadFile(file);
@@ -301,8 +311,8 @@ class CandidateServiceTest {
                     .save(candidate);
         }
 
-        @Test
-        void erroArquivo() throws Exception {
+        @DisplayName("Should throw exception when file upload fails")
+        void shouldThrowExceptionWhenFileUploadFails() throws Exception {
             doThrow(Exception.class)
                     .when(uploadService).uploadFile(file);
 
@@ -316,7 +326,8 @@ class CandidateServiceTest {
         }
 
         @Test
-        void erroInesArquivo() throws Exception {
+        @DisplayName("Should throw IOException when file upload has IOException")
+        void shouldThrowIOExceptionWhenFileUploadHasIOException() throws Exception {
             doThrow(IOException.class)
                     .when(uploadService).uploadFile(file);
 
@@ -341,6 +352,7 @@ class CandidateServiceTest {
         String code = "dffd15";
 
         @Test
+        @DisplayName("Should create candidate registration successfully")
         void generateCandidateRegistration() {
             mockStatic(RandomString.class);
             when(generateRandomString(6)).thenReturn(code);
@@ -355,7 +367,7 @@ class CandidateServiceTest {
     }
 
     @Nested
-    class indByCandidateRegistration {
+    class FindByCandidateRegistration {
 
         PoliticalParty politicalParty = new PoliticalParty("Partido Exemplo", "SP");
 
@@ -363,7 +375,8 @@ class CandidateServiceTest {
                 politicalParty, "Nome do Vice", "Coalizão e Federação Exemplo");
 
         @Test
-        void findByCandidateRegistration() {
+        @DisplayName("Should find candidate by registration successfully")
+        void findByCandidateRegistration(){
             doReturn(Optional.of(candidate))
                     .when(candidateRepository).findByCandidateRegistration("d2162s");
 
@@ -373,7 +386,8 @@ class CandidateServiceTest {
         }
 
         @Test
-        void notFound() {
+        @DisplayName("Should throw CandidateNotFoundException when candidate not found by registration")
+        void ShouldThrowCandidateNotFoundExceptionWhenCandidateNotFoundByRegistration() {
             doReturn(Optional.empty())
                     .when(candidateRepository).findByCandidateRegistration("d2162s");
 
@@ -391,7 +405,8 @@ class CandidateServiceTest {
                 politicalParty, "Nome do Vice", "Coalizão e Federação Exemplo");
 
         @Test
-        void findById() {
+        @DisplayName("Should find candidate by ID successfully")
+        void shouldFindCandidateByIdSuccessfully() {
             doReturn(Optional.of(candidate))
                     .when(candidateRepository).findById(candidate.getId());
 
@@ -401,7 +416,8 @@ class CandidateServiceTest {
         }
 
         @Test
-        void notFound() {
+        @DisplayName("Should throw CandidateNotFoundException when candidate not found by ID")
+        void ShouldThrowCandidateNotFoundExceptionWhenCandidateNotFoundByID() {
             doReturn(Optional.empty())
                     .when(candidateRepository).findById(candidate.getId());
 
@@ -418,7 +434,8 @@ class CandidateServiceTest {
                 politicalParty, "Nome do Vice", "Coalizão e Federação Exemplo");
 
         @Test
-        void findByName() {
+        @DisplayName("Should find candidate by name successfully")
+        void shouldFindCandidateByNAmeSuccessfully() {
             doReturn(Optional.of(candidate))
                     .when(candidateRepository).findByName(candidate.getName());
 
@@ -428,7 +445,8 @@ class CandidateServiceTest {
         }
 
         @Test
-        void notFound() {
+        @DisplayName("Should throw CandidateNotFoundException when candidate not found by name")
+        void shouldThrowCandidateNotFoundExceptionWhenCandidateNotFoundByName() {
             doReturn(Optional.empty())
                     .when(candidateRepository).findByName(candidate.getName());
 
@@ -445,7 +463,8 @@ class CandidateServiceTest {
         Candidate candidate = new Candidate("Nome do Candidato", "123456", SituationCandidate.FIRST_TURN,
                 politicalParty, "Nome do Vice", "Coalizão e Federação Exemplo");
         @Test
-        void deleteById() {
+        @DisplayName("Should delete candidate by ID successfully")
+        void shouldDeleteCandidateByIdSuccessfully() {
             doReturn(Optional.of(candidate))
                     .when(candidateRepository).findById(candidate.getId());
             doNothing()
@@ -461,7 +480,8 @@ class CandidateServiceTest {
         }
 
         @Test
-        void notFound() {
+        @DisplayName("Should throw CandidateNotFoundException when candidate not found to delete by ID")
+        void ShouldThrowCandidateNotFoundExceptionWhenCandidateNotFoundToDeleteByID() {
             doReturn(Optional.empty())
                     .when(candidateRepository)
                     .findById(candidate.getId());
