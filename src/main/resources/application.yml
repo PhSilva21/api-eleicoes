@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/eleicoes?useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3308/eleicoes?useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: 123
   jpa:

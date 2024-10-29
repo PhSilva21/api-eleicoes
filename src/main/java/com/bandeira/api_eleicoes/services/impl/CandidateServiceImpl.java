@@ -15,6 +15,8 @@ import com.bandeira.api_eleicoes.util.RandomString;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 @Service
 public class CandidateServiceImpl implements CandidateService {
 
@@ -33,7 +35,7 @@ public class CandidateServiceImpl implements CandidateService {
 
     @Override
     public CreateCandidateResponse createCandidate(CreateCandidateDTO request
-            , MultipartFile file) {
+            , MultipartFile file) throws Exception {
         String code = generateCandidateRegistration();
 
         var politicalParty = politicalPartyService.findByName(request.politicalPartyName());
@@ -49,16 +51,13 @@ public class CandidateServiceImpl implements CandidateService {
 
         setPhotoPath(file, candidate);
 
-
-        candidateRepository.save(candidate);
-
         return new CreateCandidateResponse(candidate.getName()
                 , candidate.getSituationCandidate(), candidate.getVice()
                 , candidate.getPoliticalParty(), candidate.getCoalitionAndFederation());
     }
 
     @Override
-    public void updateCandidate(UpdateCandidateDTO request, MultipartFile file) {
+    public void updateCandidate(UpdateCandidateDTO request, MultipartFile file) throws Exception {
         var candidate = findById(request.id());
 
         if(request.name() != null){
@@ -80,12 +79,11 @@ public class CandidateServiceImpl implements CandidateService {
         if(request.coalitionAndFederation() != null){
             candidate.setCoalitionAndFederation(request.coalitionAndFederation());
         }
-
         candidateRepository.save(candidate);
-
     }
 
-    public UploadResponse setPhotoPath(MultipartFile file, Candidate candidate){
+    @Override
+    public UploadResponse setPhotoPath(MultipartFile file, Candidate candidate) throws Exception {
         var response = uploadService.uploadFile(file);
         candidate.setPhotoPath(response.location());
 

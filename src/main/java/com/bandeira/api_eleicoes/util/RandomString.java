@@ -1,6 +1,5 @@
 package com.bandeira.api_eleicoes.util;
 
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import java.security.SecureRandom;

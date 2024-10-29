@@ -26,7 +26,7 @@ public class UploadServiceImpl implements UploadService {
     }
 
     @Override
-    public UploadResponse uploadFile(MultipartFile file) {
+    public UploadResponse uploadFile(MultipartFile file) throws Exception {
         String key = file.getOriginalFilename();
         Path tempFile = null;
 
@@ -46,10 +46,10 @@ public class UploadServiceImpl implements UploadService {
             return new UploadResponse(response, null, location);
 
         } catch (IOException e) {
-            return new UploadResponse(null, "Erro ao fazer upload do arquivo: " + e.getMessage(), null);
+            throw new IOException("Erro ao realizar upload");
         }
         catch (Exception e) {
-            return new UploadResponse(null, "Erro inesperado: " + e.getMessage(), null);
+            throw new Exception("Erro inesperado");
         }
         finally {
             if (tempFile != null) {
@@ -57,7 +57,7 @@ public class UploadServiceImpl implements UploadService {
                     Files.delete(tempFile);
                 }
                 catch (IOException e) {
-                    System.err.println("Erro ao deletar arquivo temporário: " + e.getMessage());
+                    throw new IOException("Erro ao fazer o rollback");
                 }
             }
         }

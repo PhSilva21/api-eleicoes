@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/candidates")
 public class CandidateController {
@@ -23,7 +25,7 @@ public class CandidateController {
     @PostMapping("/create")
     public ResponseEntity<CreateCandidateResponse> createCandidate(
             @ModelAttribute CreateCandidateDTO request,
-            @RequestParam("file") MultipartFile file) {
+            @RequestParam("file") MultipartFile file) throws Exception {
         var response = candidateService.createCandidate(request, file);
         return ResponseEntity.ok().body(response);
     }
@@ -43,7 +45,7 @@ public class CandidateController {
 
     @PutMapping("/update")
     public ResponseEntity<Void> updateCandidate(@RequestBody UpdateCandidateDTO request,
-                                                @RequestParam("file") MultipartFile file) {
+                                                @RequestParam("file") MultipartFile file) throws Exception {
         candidateService.updateCandidate(request, file);
         return ResponseEntity.ok().build();
     }
