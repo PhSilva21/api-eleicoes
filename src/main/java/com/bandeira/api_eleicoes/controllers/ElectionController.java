@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/elections")
+@RequestMapping("api/v1/election")
 public class ElectionController {
 
     private final ElectionService electionService;

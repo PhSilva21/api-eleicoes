@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/candidates")
+@RequestMapping("api/v1/candidate")
 public class CandidateController {
 
     private final CandidateService candidateService;
