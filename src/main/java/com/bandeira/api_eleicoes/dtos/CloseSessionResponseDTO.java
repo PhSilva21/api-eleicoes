@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 public record CloseSessionResponseDTO(
 
+
         String percentage,
 
         LocalDateTime latestUpdate

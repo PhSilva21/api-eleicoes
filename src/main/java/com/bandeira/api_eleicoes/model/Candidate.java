@@ -25,6 +25,7 @@ public class Candidate {
 
     private String photoPath;
 
+    @Column(unique = true)
     private String candidateRegistration;
 
     private SituationCandidate situationCandidate;

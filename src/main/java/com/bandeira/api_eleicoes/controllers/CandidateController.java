@@ -8,6 +8,7 @@ import com.bandeira.api_eleicoes.services.CandidateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +34,7 @@ public class CandidateController {
     })
     @PostMapping("/create")
     public ResponseEntity<CreateCandidateResponse> createCandidate(
-            @ModelAttribute CreateCandidateDTO request,
+            @ModelAttribute @Valid CreateCandidateDTO request,
             @RequestParam("file") MultipartFile file) throws Exception {
         var response = candidateService.createCandidate(request, file);
         return ResponseEntity.ok().body(response);
@@ -74,7 +75,7 @@ public class CandidateController {
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
     })
     @PutMapping("/update")
-    public ResponseEntity<Void> updateCandidate(@RequestBody UpdateCandidateDTO request,
+    public ResponseEntity<Void> updateCandidate(@RequestBody @Valid UpdateCandidateDTO request,
                                                 @RequestParam("file") MultipartFile file) throws Exception {
         candidateService.updateCandidate(request, file);
         return ResponseEntity.ok().build();

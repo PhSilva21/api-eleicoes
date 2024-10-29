@@ -7,6 +7,7 @@ import com.bandeira.api_eleicoes.services.PoliticalPartyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +30,7 @@ public class PoliticalPartyController {
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
     })
     @PostMapping("/create")
-    public ResponseEntity<Void> createPoliticalParty(@RequestBody CreatePoliticalPartyDTO request) {
+    public ResponseEntity<Void> createPoliticalParty(@RequestBody @Valid CreatePoliticalPartyDTO request) {
         politicalPartyService.createPoliticalParty(request);
         return ResponseEntity.ok().build();
     }

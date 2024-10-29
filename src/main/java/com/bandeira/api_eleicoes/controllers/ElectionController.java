@@ -11,6 +11,7 @@ import com.bandeira.api_eleicoes.services.ElectionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +35,7 @@ public class ElectionController {
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
     })
     @PostMapping("/create")
-    public ResponseEntity<Void> createElection(@RequestBody CreateElectionDTO request) {
+    public ResponseEntity<Void> createElection(@RequestBody @Valid CreateElectionDTO request) {
         electionService.createElection(request);
         return ResponseEntity.ok().build();
     }
@@ -47,7 +48,8 @@ public class ElectionController {
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
     })
     @PostMapping("/add-candidate")
-    public ResponseEntity<List<Candidate>> addCandidateToElection(@RequestBody AddCandidateToElectionDTO request) {
+    public ResponseEntity<List<Candidate>> addCandidateToElection(
+            @RequestBody @Valid AddCandidateToElectionDTO request) {
         List<Candidate> response = electionService.addCandidate(request);
         return ResponseEntity.ok().body(response);
     }
@@ -86,7 +88,8 @@ public class ElectionController {
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
     })
     @GetMapping("/filter")
-    public ResponseEntity<Election> findElectionByUfAndTurn(@RequestBody FilterElectionByUfAndTurn request) {
+    public ResponseEntity<Election> findElectionByUfAndTurn(
+            @RequestBody @Valid FilterElectionByUfAndTurn request) {
         Optional<Election> response = electionService.findByUfAndTurn(request);
         return response.map(ResponseEntity::ok)
                        .orElseGet(() -> ResponseEntity.notFound().build());
