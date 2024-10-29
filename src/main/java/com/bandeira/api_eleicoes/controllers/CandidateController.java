@@ -5,6 +5,9 @@ import com.bandeira.api_eleicoes.dtos.CreateCandidateResponse;
 import com.bandeira.api_eleicoes.dtos.UpdateCandidateDTO;
 import com.bandeira.api_eleicoes.model.Candidate;
 import com.bandeira.api_eleicoes.services.CandidateService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +25,12 @@ public class CandidateController {
         this.candidateService = candidateService;
     }
 
+    @Operation(description = "Operação para criar um candidadto")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Candidato criado com sucesso"),
+            @ApiResponse(responseCode = "417", description = "Erro de validação de dados"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @PostMapping("/create")
     public ResponseEntity<CreateCandidateResponse> createCandidate(
             @ModelAttribute CreateCandidateDTO request,
@@ -30,12 +39,26 @@ public class CandidateController {
         return ResponseEntity.ok().body(response);
     }
 
+    @Operation(description = "Operação para buscar candidato por id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Candidato encontrado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Candidato não encontrado"),
+            @ApiResponse(responseCode = "417", description = "Erro de validação de dados"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @GetMapping("/find-by-id/{id}")
     public ResponseEntity<Candidate> getCandidateById(@PathVariable Long id) {
         Candidate response = candidateService.findById(id);
         return ResponseEntity.ok().body(response);
     }
 
+    @Operation(description = "Operação para buscar candidato por nome")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Candidato encontrado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Candidato não encontrado"),
+            @ApiResponse(responseCode = "417", description = "Erro de validação de dados"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @GetMapping("/find-by-name")
     public ResponseEntity<Candidate> getCandidateByName(
             @RequestParam @Param("name") String name) {
@@ -43,6 +66,13 @@ public class CandidateController {
         return ResponseEntity.ok().body(response);
     }
 
+    @Operation(description = "Operação para atualizar candidato")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Candidato atualizado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Candidato não encontrado"),
+            @ApiResponse(responseCode = "417", description = "Erro de validação de dados"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @PutMapping("/update")
     public ResponseEntity<Void> updateCandidate(@RequestBody UpdateCandidateDTO request,
                                                 @RequestParam("file") MultipartFile file) throws Exception {
@@ -50,6 +80,13 @@ public class CandidateController {
         return ResponseEntity.ok().build();
     }
 
+    @Operation(description = "Operação para deletar candidato")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Candidato deletado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Candidato não encontrado"),
+            @ApiResponse(responseCode = "417", description = "Erro de validação de dados"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCandidate(@PathVariable Long id) {
         candidateService.deleteById(id);
