@@ -10,7 +10,6 @@ public record AddCandidateToElectionDTO(
         String candidateRegistration,
 
         @NotNull(message = "O id da eleição não pode ser nulo")
-        @NotBlank(message = "O id da eleiçãp não pode ser vazio")
         Long electionId
 ) {
 }

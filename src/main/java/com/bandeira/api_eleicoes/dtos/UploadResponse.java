@@ -10,7 +10,4 @@ public record UploadResponse(
 
         String location) {
 
-    public boolean isSuccessful() {
-        return response != null;
-    }
 }

@@ -48,9 +48,7 @@ public class UploadServiceImpl implements UploadService {
         } catch (IOException e) {
             throw new IOException("Erro ao realizar upload");
         }
-        catch (Exception e) {
-            throw new Exception("Erro inesperado");
-        }
+
         finally {
             if (tempFile != null) {
                 try {

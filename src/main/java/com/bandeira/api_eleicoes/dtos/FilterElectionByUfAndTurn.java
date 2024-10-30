@@ -11,7 +11,6 @@ public record FilterElectionByUfAndTurn(
         String uf,
 
         @NotNull(message = "O turno não pode ser nulo")
-        @NotBlank(message = "O turno não pode ser vazio")
         ElectionTurn electionTurn
 ) {
 }

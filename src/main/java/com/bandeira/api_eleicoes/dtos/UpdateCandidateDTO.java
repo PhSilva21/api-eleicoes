@@ -10,7 +10,6 @@ import java.util.List;
 public record UpdateCandidateDTO(
 
         @NotNull(message = "O id não pode ser nulo")
-        @NotBlank(message = "O id não pode ser vazio")
         Long id,
 
         String name,
