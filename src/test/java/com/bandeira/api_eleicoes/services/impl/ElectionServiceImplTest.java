@@ -3,7 +3,7 @@ package com.bandeira.api_eleicoes.services.impl;
 import com.bandeira.api_eleicoes.dtos.AddCandidateToElectionDTO;
 import com.bandeira.api_eleicoes.dtos.CloseSessionResponseDTO;
 import com.bandeira.api_eleicoes.dtos.CreateElectionDTO;
-import com.bandeira.api_eleicoes.dtos.FilterElectionByUfAndTurn;
+import com.bandeira.api_eleicoes.dtos.FindElectionByUfAndYear;
 import com.bandeira.api_eleicoes.exceptions.CandidateNotFoundException;
 import com.bandeira.api_eleicoes.exceptions.ElectionAlreadyExists;
 import com.bandeira.api_eleicoes.exceptions.ElectionNotFound;
@@ -313,7 +313,7 @@ class ElectionServiceImplTest {
     @DisplayName("Find by UF and Turn")
     class FindByUfAndTurn {
 
-        FilterElectionByUfAndTurn filterElectionByUfAndTurn = new FilterElectionByUfAndTurn(
+        FindElectionByUfAndYear filterElectionByUfAndTurn = new FindElectionByUfAndYear(
                  "SP", ElectionTurn.FIRST_TURN);
 
         Election election = new Election(LocalDate.now(), "SP", ElectionTurn.FIRST_TURN,

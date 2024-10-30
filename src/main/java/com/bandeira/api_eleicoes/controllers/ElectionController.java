@@ -3,9 +3,7 @@ package com.bandeira.api_eleicoes.controllers;
 import com.bandeira.api_eleicoes.dtos.AddCandidateToElectionDTO;
 import com.bandeira.api_eleicoes.dtos.CloseSessionResponseDTO;
 import com.bandeira.api_eleicoes.dtos.CreateElectionDTO;
-import com.bandeira.api_eleicoes.dtos.FilterElectionByUfAndTurn;
 import com.bandeira.api_eleicoes.model.Candidate;
-import com.bandeira.api_eleicoes.model.Election;
 import com.bandeira.api_eleicoes.model.PastElections;
 import com.bandeira.api_eleicoes.services.ElectionService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/election")
@@ -78,21 +75,6 @@ public class ElectionController {
     public ResponseEntity<CloseSessionResponseDTO> closeSession(@PathVariable Long id) {
         CloseSessionResponseDTO response = electionService.closeSession(id);
         return ResponseEntity.ok().body(response);
-    }
-
-    @Operation(description = "Operação para buscar eleição por uf e turno")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Eleição encontrada com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Eleição não encontrado"),
-            @ApiResponse(responseCode = "417", description = "Erro de validação de dados"),
-            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
-    })
-    @GetMapping("/filter")
-    public ResponseEntity<Election> findElectionByUfAndTurn(
-            @RequestBody @Valid FilterElectionByUfAndTurn request) {
-        Optional<Election> response = electionService.findByUfAndTurn(request);
-        return response.map(ResponseEntity::ok)
-                       .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @Operation(description = "Operação para buscar candidatos eleitos")

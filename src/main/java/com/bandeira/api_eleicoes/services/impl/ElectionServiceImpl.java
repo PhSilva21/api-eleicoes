@@ -3,7 +3,6 @@ package com.bandeira.api_eleicoes.services.impl;
 import com.bandeira.api_eleicoes.dtos.AddCandidateToElectionDTO;
 import com.bandeira.api_eleicoes.dtos.CloseSessionResponseDTO;
 import com.bandeira.api_eleicoes.dtos.CreateElectionDTO;
-import com.bandeira.api_eleicoes.dtos.FilterElectionByUfAndTurn;
 import com.bandeira.api_eleicoes.exceptions.ElectionAlreadyExists;
 import com.bandeira.api_eleicoes.exceptions.ElectionNotFound;
 import com.bandeira.api_eleicoes.model.Candidate;
@@ -22,7 +21,6 @@ import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ElectionServiceImpl implements ElectionService{
@@ -112,15 +110,6 @@ public class ElectionServiceImpl implements ElectionService{
         candidateRepository.save(candidate);
 
         return election.getCandidates();
-    }
-
-    @Override
-    public Optional<Election> findByUfAndTurn(FilterElectionByUfAndTurn request) {
-        return Optional.of(electionRepository.findAll().stream()
-                .filter(e -> e.getUf().equals(request.uf())
-                        && e.getElectionTurn().equals(request.electionTurn()))
-                .toList().stream().findFirst()
-                .orElseThrow(ElectionAlreadyExists::new));
     }
 
     @Override
