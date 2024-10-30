@@ -310,29 +310,6 @@ class ElectionServiceImplTest {
     }
 
     @Nested
-    @DisplayName("Find by UF and Turn")
-    class FindByUfAndTurn {
-
-        FindElectionByUfAndYear filterElectionByUfAndTurn = new FindElectionByUfAndYear(
-                 "SP", ElectionTurn.FIRST_TURN);
-
-        Election election = new Election(LocalDate.now(), "SP", ElectionTurn.FIRST_TURN,
-                ElectionType.MUNICIPAL_ELECTION, 100.00);
-
-        @Test
-        @DisplayName("Find by UF and Turn")
-        void findByUfAndTurn() {
-            var list = List.of(election);
-            doReturn(list)
-                    .when(electionRepository).findAll();
-
-            var response = electionService.findByUfAndTurn(filterElectionByUfAndTurn);
-
-            assertNotNull(response);
-        }
-    }
-
-    @Nested
     @DisplayName("Get Elected Candidates")
     class GetElectedCandidates {
 

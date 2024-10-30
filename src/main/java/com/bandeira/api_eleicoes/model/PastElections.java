@@ -5,6 +5,7 @@ import com.bandeira.api_eleicoes.model.enums.ElectionTurn;
 import com.bandeira.api_eleicoes.model.enums.ElectionType;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Table(name = "tb_past_elections")
 @Entity
 public class PastElections {

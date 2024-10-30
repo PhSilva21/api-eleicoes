@@ -11,6 +11,7 @@ import com.bandeira.api_eleicoes.services.CandidateService;
 import com.bandeira.api_eleicoes.services.PastElectionService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,7 +34,7 @@ public class PastElectionServiceImpl implements PastElectionService {
                 .filter(e -> e.getUf().equals(request.uf())
                         && e.getDate().getYear() == request.year())
                 .toList().stream().findFirst()
-                .orElseThrow(ElectionAlreadyExists::new));
+                .orElseThrow(PastElectionNotFoundException::new));
     }
 
     @Override
@@ -81,7 +82,10 @@ public class PastElectionServiceImpl implements PastElectionService {
 
         var candidate = candidateService.findByCandidateRegistration(candidateRegistration);
 
-        election.getElectedCandidates().remove(candidate);
+        List<Candidate> electedCandidates = new ArrayList<>(election.getElectedCandidates());
+        electedCandidates.remove(candidate);
+
+        election.setElectedCandidates(electedCandidates);
 
         pastElectionsRepository.save(election);
 
@@ -94,7 +98,10 @@ public class PastElectionServiceImpl implements PastElectionService {
 
         var candidate = candidateService.findByCandidateRegistration(candidateRegistration);
 
-        election.getElectedCandidates().add(candidate);
+        List<Candidate> electedCandidates = new ArrayList<>(election.getElectedCandidates());
+        electedCandidates.add(candidate);
+
+        election.setElectedCandidates(electedCandidates);
 
         pastElectionsRepository.save(election);
 
